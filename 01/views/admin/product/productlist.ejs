@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+<body>
+	<!--The content below is only a placeholder and can be replaced.-->
+
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/basic.css">
+
+	<%- include("../component/header.ejs")%>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-2">
+				<%- include("../component/aside.ejs")%>
+
+			</div>
+			<div class="col-sm-10">
+				<ol class="breadcrumb">
+					<li class="active">商品管理
+					</li>
+					<li class="active">商品列表
+					</li>
+				</ol>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						搜索
+					</div>
+					<div class="panel-body">
+						<form role="form" action="/admin/productsearch" class="form-inline">
+							<div class="form-group">
+								<label for="name">名称</label>
+								<input type="text" name="title" class="form-control" id="name" placeholder="请输入名称">
+							</div>
+							<div class="form-group">
+								<label for="name">价格</label>
+								<input type="text" name="price1" class="form-control" id="name" placeholder="最小价格">
+							</div>
+							<div class="form-group">
+								<label for="name">价格</label>
+								<input type="text" name="price2" class="form-control" id="name" placeholder="最大价格">
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="btn btn-default">开始搜索</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!--
+                列表展示
+            -->
+				<div class="table-responsive">
+					<table class="table table-striped ">
+						<thead>
+							<tr>
+								<th>编号</th>
+								<th>图标</th>
+								<th>名称</th>
+								<th>价格</th>
+								<th>邮费</th>
+
+								<th class="text-center">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%for(let i=0;i<productListDatas.length;i++){%>
+							<tr>
+								<td><%=i+1%></td>
+								<td>
+									<img style="width: 60px;" src="<%=productListDatas[i].pic%>" alt="">
+								</td>
+								<td><%=productListDatas[i].title%></td>
+								<td><%=productListDatas[i].price==0?'待定':productListDatas[i].price+'元'%></td>
+								<td><%=productListDatas[i].postage==0?'包邮':productListDatas[i].postage+'元'%></td>
+
+								<td class="text-center">
+									<a href="/admin/productedit?id=<%=productListDatas[i]._id%>"
+										class="btn btn-primary">修改</a>
+									<a href="/admin/productdelete?id=<%=productListDatas[i]._id%>"
+										class="btn btn-danger">删除</a>
+								</td>
+							</tr>
+							<%}%>
+
+
+
+						</tbody>
+					</table>
+					<div>
+						<ul class="pagination">
+							<li><a href="">总共<span><%=total%></span>条数据</a></li>
+							<li><a href="/admin/productlist?page=1">首页</a></li>
+							<li class="<%=page==1?'disabled':''%>"><a href="/admin/productlist?page=<%=page-1%>">上一页</a>
+							</li>
+
+							<%for(var i=1;i<=totalPage;i++){%>
+							<li class="<%=page==i?'active':''%>"><a href="/admin/productlist?page=<%=i%>"><%=i%></a>
+							</li>
+							<%}%>
+							<li class="<%=page==totalPage?'disabled':''%>"><a
+								href="/admin/productlist?page=<%=page=page<totalPage?page+1:totalPage%>">下一页</a></li>
+							<li><a href="/admin/productlist?page=<%=totalPage%>">尾页</a></li>
+							</ul>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	</div>
+
+</body>
+
+</html>
